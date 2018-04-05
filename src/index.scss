@@ -57,11 +57,39 @@
 }
 
 .md-RichEditor-editor .md-RichEditor-blockquote {
+  border-left: 5px solid #dfe2e5;
+  color: #6a737d;
+  margin: 0;
+  padding: 10px 0 10px 20px;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+
+.md-RichEditor-editor .md-block-note {
+  border-left: 5px solid #f6b73c;
+  color: #555;
+  margin: 0;
+  padding: 10px 0 10px 20px;
+  background-color: #fff3d4;
+  margin-bottom: 5px;
+}
+
+.md-RichEditor-editor .md-block-warning {
+  border-left: 5px solid #e66465;
+  color: #555;
+  margin: 0;
+  padding: 10px 0 10px 20px;
+  background-color: #ffe7e8;
+  margin-bottom: 5px;
+}
+
+.md-RichEditor-editor .md-block-aside {
   border-left: 5px solid #4CA8DE;
   color: #555;
   margin: 0;
   padding: 10px 0 10px 20px;
   background-color: #E2F2FF;
+  margin-bottom: 5px;
 }
 
 .md-RichEditor-blockquote {
@@ -80,7 +108,13 @@
 .md-RichEditor-editor .public-DraftStyleDefault-pre {
   background-color: #f6f8fa;
   font-size: 16px;
-  padding: 20px;
+  margin: 0;
+  padding: 10px 0 10px 20px;
+  margin-bottom: 5px;
+
+  pre {
+    margin: 0;
+  }
 }
 
 .public-DraftStyleDefault-unorderedListItem,

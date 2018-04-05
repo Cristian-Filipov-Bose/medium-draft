@@ -9,22 +9,29 @@ this dictionary, that particular block's type will be changed to the value
 associated with that key.
 */
 export const StringToTypeMap = {
-  '--': `${Block.BLOCKQUOTE}:${Block.BLOCKQUOTE_CAPTION}:${Block.CAPTION}`,
   '> ': Block.BLOCKQUOTE,
   '*.': Block.UL,
   '* ': Block.UL,
   '- ': Block.UL,
   '1.': Block.OL,
   '# ': Block.H1,
-  '##': Block.H2,
+  '## ': Block.H2,
+  '### ': Block.H3,
+  '#### ': Block.H4,
+  '##### ': Block.H5,
+  '###### ': Block.H6,
   '==': Block.UNSTYLED,
   '[]': Block.TODO,
+  '``` ': Block.CODE,
+  'CODE ': Block.CODE,
+  'NOTE ': Block.NOTE,
+  'WARN ': Block.WARNING,
+  'ASIDE ': Block.ASIDE,
 };
-
 
 /*
 This function is called before text is input in a block in `draft-js`. It checks
-whether the input string (first 2 cahracters only) is present in the `StringToTypeMap`
+whether the input string is present in the `StringToTypeMap`
 mapping or not. If present, it converts the current block's type and called the `editor`'s
 `onChange` function. Otherwise, does nothing. By defualt, the above key-value mapping
 is passed. In custom implementation, users can pass their own mapping or extend
@@ -38,10 +45,11 @@ const beforeInput = (editorState, inputString, onChange, mapping = StringToTypeM
     return NOT_HANDLED;
   }
   const blockLength = block.getLength();
-  if (selection.getAnchorOffset() > 1 || blockLength > 1) {
-    return NOT_HANDLED;
-  }
-  const blockTo = mapping[block.getText()[0] + inputString];
+  // if (selection.getAnchorOffset() > 1 || blockLength > 1) {
+  //   return NOT_HANDLED;
+  // }
+  const blockTo = mapping[block.getText() + inputString];
+  console.log('blockTo', blockTo, block.getText() + inputString);
   if (!blockTo) {
     return NOT_HANDLED;
   }

@@ -1,6 +1,6 @@
 Block Elements
 --------------
-title: h1, h2, h3, h4, h5
+title: h1, h2, h3, h4, h5, h6
 paragraph
 block-quote
 unordered-list
@@ -8,7 +8,7 @@ ordered-list
 todo-list
 code-block
 render-block: dot, flowchart, gantt, sequence, csv, latex, svg
-admonition: note, warning, important, caution
+admonition: note, warning, important
 image
 table
 embed
@@ -25,7 +25,6 @@ superscript
 subscript
 link
 footnote
-keyboard
 
 shield
 placeholder

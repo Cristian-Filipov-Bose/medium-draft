@@ -16,13 +16,14 @@ export const Block = {
   H6: 'header-six',
   CODE: 'code-block',
   BLOCKQUOTE: 'blockquote',
-  PULLQUOTE: 'pullquote',
+  NOTE: 'note',
+  WARNING: 'warning',
+  ASIDE: 'aside',
   ATOMIC: 'atomic',
-  BLOCKQUOTE_CAPTION: 'block-quote-caption',
-  CAPTION: 'caption',
   TODO: 'todo',
   IMAGE: 'atomic:image',
   BREAK: 'atomic:break',
+  RENDERCODE: 'atomic:render-code',
 };
 
 export const Inline = {
@@ -32,10 +33,13 @@ export const Inline = {
   STRIKETHROUGH: 'STRIKETHROUGH',
   UNDERLINE: 'UNDERLINE',
   HIGHLIGHT: 'HIGHLIGHT',
+  SUPERSCRIPT: 'SUPERSCRIPT',
+  SUBSCRIPT: 'SUBSCRIPT',
 };
 
 export const Entity = {
   LINK: 'LINK',
+  FOOTNOTE: 'FOOTNOTE',
 };
 
 export const HYPERLINK = 'hyperlink';

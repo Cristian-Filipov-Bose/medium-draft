@@ -7,12 +7,6 @@ import { Block } from './constants';
 Mapping that returns containers for the various block types.
 */
 const RenderMap = Map({
-  [Block.CAPTION]: {
-    element: 'cite',
-  },
-  [Block.BLOCKQUOTE_CAPTION]: {
-    element: 'blockquote',
-  },
   [Block.TODO]: {
     element: 'div',
   },
@@ -21,6 +15,18 @@ const RenderMap = Map({
   },
   [Block.BREAK]: {
     element: 'div',
+  },
+  [Block.NOTE]: {
+    element: 'aside',
+  },
+  [Block.WARNING]: {
+    element: 'aside',
+  },
+  [Block.ASIDE]: {
+    element: 'aside',
+  },
+  [Block.RENDERCODE]: {
+    element: 'figure',
   },
 }).merge(DefaultDraftBlockRenderMap);
 

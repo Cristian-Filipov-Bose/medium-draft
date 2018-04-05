@@ -1,0 +1,79 @@
+Block Elements
+--------------
+title: h1, h2, h3, h4, h5
+paragraph
+block-quote
+unordered-list
+ordered-list
+todo-list
+code-block
+render-block: dot, flowchart, gantt, sequence, csv, latex, svg
+admonition: note, warning, important, caution
+image
+table
+embed
+
+Inline Elements
+---------------
+strong
+emphasis
+underline
+highlight
+strikestrough
+code
+superscript
+subscript
+link
+footnote
+keyboard
+
+shield
+placeholder
+date
+time
+datetime
+
+Autocomplete
+------------
+Start a line with -, *, 1. followed by space to create a list item
+Start a line with [] followed by space to create a todo item
+Start a line with #, ##, ###, etc...  followed by space to create a heading
+Start a line with ``` followed by ENTER to create a code block
+Start a line with ```lang followed by ENTER to create a code block for lang
+Start a line with \\\ followed by ENTER to create a render block
+Start a line with \\\lang followed by ENTER to create a render block using lang
+Start a line with > followed by ENTER to create a quote block
+Start a line with [[[ followed by ENTER to create an admonition block
+Start a line with [[[note followed by ENTER to create an NOTE admonition block, or other type
+\date followed by ENTER will be replaced with the current date (local time)
+\time followed by ENTER will be replaced with the current time (local time)
+\datetime followed by ENTER will be replaced with the current date and time (local time)
+\shield\subject\status\color followed by ENTER will be replaced with a shields.io shield
+\deg will be replaced with °
+[^ will trigger the footnote popup
+(c) will be replaced with ©
+(C) will be replaced with ©
+(r) will be replaced with ®
+(R) will be replaced with ®
+(tm) will be replaced with ™
+(TM) will be replaced with ™
+(p) will be replaced with §
+(P) will be replaced with §
++- will be replaced with ±
+... will be replaced with …
+-- will be replaced with –
+-> will be replaced with →
+=> will be replaced with ⇒
+<- will be replaced with ←
+<= will be replaced with ⇐
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+

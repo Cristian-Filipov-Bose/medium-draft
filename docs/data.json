@@ -31,21 +31,6 @@
   },
   "blocks": [
     {
-      "key": "2vr7c",
-      "text": "medium-draft",
-      "type": "header-three",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [
-        {
-          "offset": 0,
-          "length": 12,
-          "key": 0
-        }
-      ],
-      "data": {}
-    },
-    {
       "key": "fksil",
       "text": "This page is fully editable.",
       "type": "header-three",

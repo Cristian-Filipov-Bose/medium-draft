@@ -499,11 +499,6 @@ class App extends React.Component {
     const { editorState, editorEnabled } = this.state;
     return (
       <div>
-        <div className="editor-action">
-          <button onClick={this.logData}>Log State</button>
-          <button onClick={this.renderHTML}>Render HTML</button>
-          <button onClick={this.toggleEdit}>Toggle Edit</button>
-        </div>
         <Editor
           ref={(e) => {this._editor = e;}}
           editorState={editorState}
@@ -518,6 +513,11 @@ class App extends React.Component {
           sideButtons={this.sideButtons}
           rendererFn={this.rendererFn}
         />
+        <div className="editor-action">
+          <button onClick={this.logData}>Log State</button>
+          <button onClick={this.renderHTML}>Render HTML</button>
+          <button onClick={this.toggleEdit}>Toggle Edit</button>
+        </div>
       </div>
     );
   }

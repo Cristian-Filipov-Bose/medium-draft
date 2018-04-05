@@ -52,7 +52,7 @@ export default class ImageButton extends React.Component {
   render() {
     return (
       <button
-        className="md-sb-button md-sb-img-button"
+        className="md-sb-button"
         type="button"
         onClick={this.onClick}
         title="Add an Image"

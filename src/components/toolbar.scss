@@ -23,20 +23,18 @@
 
 @keyframes pop-downwards{0%{transform:matrix(.97,0,0,1,0,-12);opacity:0}20%{transform:matrix(.99,0,0,1,0,-2);opacity:.7}40%{transform:matrix(1,0,0,1,0,1);opacity:1}70%{transform:matrix(1,0,0,1,0,0);opacity:1}100%{transform:matrix(1,0,0,1,0,0);opacity:1}}
 
-
-$toolbar-color: #323845;
-
+$toolbar-color: #fff;
 
 .md-editor-toolbar {
   background: $toolbar-color;
-  color: #fff;
+  color: #323845;
   cursor: auto;
-  border-radius: 5px;
+  border-bottom: 1px solid #e0e0e0;
   z-index: 2;
-  position: absolute;
+  position: sticky;
+  top: 0;
   transition: all 0.1s ease;
   visibility: hidden;
-  box-shadow: 0 1px 3px 0 #747171;
   // background-image: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
 
   // transition: top 75ms ease-out,left 75ms ease-out;
@@ -48,19 +46,14 @@ $toolbar-color: #323845;
   }
 
   &.md-editor-toolbar--linkinput {
-    // display:block;
-    animation: pop-downwards 200ms forwards linear;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    margin-left: -5px;
-    border-top: 5px solid $toolbar-color;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
+    animation: pop-upwards 200ms forwards linear;
+    position: fixed;
+    bottom: 0;
+    top: initial;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: none;
   }
 
   .md-url-input {
@@ -72,7 +65,7 @@ $toolbar-color: #323845;
     padding-right: 11px;
     border: none;
     background: $toolbar-color;
-    color: #fff;
+    color: #323845;
     font-size: 0.9em;
     font-weight: 100;
 
@@ -93,13 +86,22 @@ $toolbar-color: #323845;
 }
 
 .md-editor-toolbar-edit-link {
+  animation: pop-upwards 200ms forwards linear;
   padding: 4px 5px;
-  font-size: 0.8em;
-  width: 320px;
+  position: fixed;
+  bottom: 0;
+  top: initial;
+  left: 0;
+  width: calc(100% - 10px);
+  border-top: 1px solid #e0e0e0;
+  border-bottom: none;
 
   a {
-    color: #fff;
+    color: #323845;
     text-decoration: none;
+    vertical-align: middle;
+    font-size: 0.9em;
+    font-weight: 100;
   }
 
   &::after {
@@ -111,7 +113,7 @@ $toolbar-color: #323845;
   button {
     background: none;
     border: none;
-    color: #fff;
+    color: #323845;
     float: right;
     display: inline-block;
     padding: 0 5px;
@@ -122,13 +124,29 @@ $toolbar-color: #323845;
       border-right: 1px solid #fff;
     }
   }
+
+  .md-RichEditor-controls {
+    display: flex;
+
+    .md-RichEditor-link-url {
+      flex: 1 0 auto;
+    }
+
+    .md-editor-toolbar-edit-button {
+      flex: 0 0 auto;
+    }
+
+    .md-editor-toolbar-unlink-button {
+      flex: 0 0 auto;
+    }
+  }
 }
 
 .md-RichEditor-controls {
   font-family: 'Helvetica', sans-serif;
   font-size: 14px;
   display: inline-block;
-  border-right: 1px solid #555;
+  border-right: 1px solid #d9d9d9;
   position: relative;
 
   &.md-RichEditor-show-link-input {
@@ -141,23 +159,20 @@ $toolbar-color: #323845;
 
   .md-RichEditor-linkButton {
     padding: 0 5px;
-    color: #fff;
+    color: #323845;
     text-decoration: none;
   }
 }
 
 .md-RichEditor-styleButton {
-  color: #fff;
+  color: #323845;
   cursor: pointer;
   display: inline-block;
-  padding: 6px 10px;
+  padding: 4px;
+  margin: 3px;
 
   &:hover {
-    color: yellow;
-  }
-
-  &:last-child {
-    margin-right: 0;
+    color: #08c;
   }
 
   &.md-RichEditor-styleButton-bold {
@@ -172,21 +187,22 @@ $toolbar-color: #323845;
   &.md-RichEditor-styleButton-strikethrough {
     text-decoration: line-through;
   }
+
+  .material-icons {
+    font-size: 20px;
+    vertical-align: middle;
+  }
 }
 
 .md-RichEditor-activeButton {
-  color: #50FF4D;
-  background: #242933;
+  color: #323845;
+  border-color: transparent;
+  border-radius: 2px;
+  border-width: 1px;
+  background-color: rgba(0,0,0,0.12);
+  cursor: pointer;
 
   &:hover {
     color: #08c;
   }
 }
-
-.md-RichEditor-controls-block {
-  .md-RichEditor-styleButton:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-}
-

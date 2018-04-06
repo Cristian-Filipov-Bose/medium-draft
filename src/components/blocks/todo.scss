@@ -1,26 +1,50 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 .md-block-todo {
-    // margin: 10px 0;
+    margin: 0 0 10px 0 !important;
 
     input[type=checkbox] {
         cursor: pointer;
-        float: left;
-        position: relative;
-        top: 4px;
-        left: -4px;
+        // float: left;
+        // position: relative;
+        height: 24px;
+        width: 21px;
+        opacity: 0;
+        position: absolute;
+        margin: 0;
+        padding: 0;
     }
 
     .public-DraftStyleDefault-block {
-        margin-left: 18px;
-    }
-
-    .md-block-todo-completed {
-        color: #949494;
-        text-decoration: line-through;
+        margin-left: 24px;
+        display: inline-block;
+        vertical-align: text-bottom;
     }
 }
 
-// .public-DraftEditor-content {
-//     .block-todo {
-//         margin: 10px 0px;
-//     }
-// }
+.md-block-todo-unchecked {
+    .block-todo-incomplete:before {
+        font-family: 'Material Icons';
+        font-size: 16px;
+        display: inline-block;
+        position: absolute;
+        content: '\e835';
+        letter-spacing: 5px;
+    }
+}
+
+.md-block-todo-checked {
+    .block-todo-completed:before {
+        font-family: 'Material Icons';
+        font-size: 16px;
+        display: inline-block;
+        position: absolute;
+        content: '\e834';
+        letter-spacing: 5px; 
+    }
+
+    .public-DraftStyleDefault-block {
+        text-decoration: line-through;
+        color: #949494;
+    }
+}

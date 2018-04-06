@@ -434,7 +434,7 @@ class App extends React.Component {
   logData(e) {
     const currentContent = this.state.editorState.getCurrentContent();
     const es = convertToRaw(currentContent);
-    console.log(es);
+    console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())));
     console.log(this.state.editorState.getSelection().toJS());
     window.ga('send', 'event', 'draftjs', 'log-data');
   }

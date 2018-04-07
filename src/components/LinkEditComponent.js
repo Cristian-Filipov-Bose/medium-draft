@@ -39,6 +39,10 @@ export default class LinkEditComponent extends React.Component {
     setTimeout(this.calculatePosition, 0);
   }
 
+  componentDidUpdate() {
+    setTimeout(this.calculatePosition, 0);
+  }
+
   shouldComponentUpdate(newProps) {
     if (this.renderedOnce) {
       const ret = (this.props.blockKey !== newProps.blockKey || this.props.entityKey !== newProps.entityKey);
@@ -50,6 +54,24 @@ export default class LinkEditComponent extends React.Component {
     this.renderedOnce = true;
     return true;
   }
+
+  calculatePosition = () => {
+    if (!this.toolbar) {
+      return;
+    }
+    const relativeParent = getRelativeParent(this.toolbar.parentElement);
+    const relativeRect = relativeParent ? relativeParent.getBoundingClientRect() : window.document.body.getBoundingClientRect();
+    const selectionRect = getVisibleSelectionRect(window);
+    if (!selectionRect) {
+      return;
+    }
+    const position = {
+      top: (selectionRect.top - relativeRect.top) + 35,
+      left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
+      transform: 'translate(-50%) scale(1)',
+    };
+    this.setState({ position });
+  };
 
   removeLink = (e) => {
     e.preventDefault();
@@ -70,25 +92,25 @@ export default class LinkEditComponent extends React.Component {
     }
     return (
       <div
-        className="md-editor-toolbar md-editor-toolbar--isopen md-editor-toolbar-edit-link"
+        className="md-editor-inline-toolbar md-editor-inline-toolbar--isopen md-editor-inline-toolbar-edit-link"
         style={this.state.position}
         ref={(element) => {
           this.toolbar = element;
         }}
       >
-        <div className="md-RichEditor-controls">
+        <div className="md-RichEditor-inline-controls">
           <span className="md-RichEditor-link-url">
             <a href={this.props.url} title={this.props.url} target="_blank" rel="noopener noreferrer">{url}</a>
           </span>
           <span
-            className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-toolbar-edit-button"
+            className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-edit-button"
             onClick={this.editLink}
             aria-label="Edit URL"
           >
             <i className="material-icons">mode_edit</i>
           </span>
           <span
-            className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-toolbar-unlink-button"
+            className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-unlink-button"
             onClick={this.removeLink}
             aria-label="Remove URL"
           >

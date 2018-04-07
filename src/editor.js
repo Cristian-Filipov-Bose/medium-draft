@@ -13,7 +13,8 @@ import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import { OrderedMap } from 'immutable';
 
 import AddButton from './components/addbutton';
-import Toolbar, { BLOCK_BUTTONS, INLINE_BUTTONS, ACTION_BUTTONS } from './components/toolbar';
+import BlockFormatToolbar, { BLOCK_BUTTONS } from './components/BlockFormatToolbar';
+import InlineFormatToolbar, { INLINE_BUTTONS } from './components/InlineFormatToolbar';
 import LinkEditComponent from './components/LinkEditComponent';
 
 import rendererFn from './components/customrenderer';
@@ -103,7 +104,6 @@ class MediumDraftEditor extends React.Component {
     blockRenderMap: RenderMap,
     blockButtons: BLOCK_BUTTONS,
     inlineButtons: INLINE_BUTTONS,
-    actionButtons: ACTION_BUTTONS,
     placeholder: 'Write your story...',
     continuousBlocks: [
       Block.UNSTYLED,
@@ -530,28 +530,6 @@ class MediumDraftEditor extends React.Component {
     return (
       <div className="md-RichEditor-root">
         <div className={editorClass}>
-          {!disableToolbar && (
-            <Toolbar
-              ref={(c) => { this.toolbar = c; }}
-              editorNode={this._editorNode}
-              editorState={editorState}
-              toggleBlockType={this.toggleBlockType}
-              toggleInlineStyle={this.toggleInlineStyle}
-              editorEnabled={editorEnabled}
-              setLink={this.setLink}
-              focus={this.focus}
-              blockButtons={blockButtons}
-              inlineButtons={inlineButtons}
-              actionButtons={this.props.actionButtons}
-            />
-          )}
-          {isCursorLink && (
-            <LinkEditComponent
-              {...isCursorLink}
-              editorState={editorState}
-              removeLink={this.removeLink}
-              editLink={this.editLinkAfterSelection}
-          />)}
           <Editor
             ref={(node) => { this._editorNode = node; }}
             {...this.props}
@@ -581,6 +559,34 @@ class MediumDraftEditor extends React.Component {
               sideButtons={this.props.sideButtons}
             />
           )}
+          {!disableToolbar && (
+            <BlockFormatToolbar
+              editorNode={this._editorNode}
+              editorState={editorState}
+              toggleBlockType={this.toggleBlockType}
+              editorEnabled={editorEnabled}
+              blockButtons={blockButtons}
+            />
+          )}
+          {!disableToolbar && (
+            <InlineFormatToolbar
+              ref={(c) => { this.toolbar = c; }}
+              editorNode={this._editorNode}
+              editorState={editorState}
+              toggleInlineStyle={this.toggleInlineStyle}
+              editorEnabled={editorEnabled}
+              setLink={this.setLink}
+              focus={this.focus}
+              inlineButtons={inlineButtons}
+            />
+          )}
+          {isCursorLink && (
+            <LinkEditComponent
+              {...isCursorLink}
+              editorState={editorState}
+              removeLink={this.removeLink}
+              editLink={this.editLinkAfterSelection}
+          />)}
         </div>
       </div>
     );

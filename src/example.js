@@ -17,7 +17,9 @@ import 'hint.css/hint.min.css';
 
 import './index.scss';
 import './components/addbutton.scss';
-import './components/toolbar.scss';
+// import './components/toolbar.scss';
+import './components/BlockFormatToolbar.scss';
+import './components/InlineFormatToolbar.scss';
 import './components/blocks/text.scss';
 import './components/blocks/atomic.scss';
 import './components/blocks/blockquotecaption.scss';

@@ -241,6 +241,7 @@ export default class InlineFormatToolbar extends React.Component {
                     return (
                     <StyleButton
                         {...iconLabel}
+                        className="hint--top"
                         key={type.style}
                         active={currentStyle.has(type.style)}
                         onToggle={this.props.toggleInlineStyle}

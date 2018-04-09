@@ -44,6 +44,7 @@ export default class BlockFormatToolbar extends React.Component {
                     return (
                         <StyleButton
                             {...iconLabel}
+                            className="hint--bottom"
                             key={type.style}
                             active={type.style === blockType}
                             onToggle={this.props.toggleBlockType}

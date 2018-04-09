@@ -543,6 +543,15 @@ class MediumDraftEditor extends React.Component {
     return (
       <div className="md-RichEditor-root">
         <div className={editorClass}>
+          {!disableToolbar && (
+            <BlockFormatToolbar
+              editorNode={this._editorNode}
+              editorState={editorState}
+              toggleBlockType={this.toggleBlockType}
+              editorEnabled={editorEnabled}
+              blockButtons={blockButtons}
+            />
+          )}
           <Editor
             ref={(node) => { this._editorNode = node; }}
             {...this.props}
@@ -570,15 +579,6 @@ class MediumDraftEditor extends React.Component {
               setEditorState={this.onChange}
               focus={this.focus}
               sideButtons={this.props.sideButtons}
-            />
-          )}
-          {!disableToolbar && (
-            <BlockFormatToolbar
-              editorNode={this._editorNode}
-              editorState={editorState}
-              toggleBlockType={this.toggleBlockType}
-              editorEnabled={editorEnabled}
-              blockButtons={blockButtons}
             />
           )}
           {!disableToolbar && (

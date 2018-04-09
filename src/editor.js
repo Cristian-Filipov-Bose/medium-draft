@@ -202,27 +202,40 @@ class MediumDraftEditor extends React.Component {
   /*
   Adds a hyperlink on the selected text with some basic checks.
   */
-  setLink(url) {
+  setLink(url, blockKey, entityKey) {
     let { editorState } = this.props;
-    const selection = editorState.getSelection();
     const content = editorState.getCurrentContent();
-    let entityKey = null;
-    let newUrl = url;
-    if (this.props.processURL) {
-      newUrl = this.props.processURL(url);
-    } else if (url.indexOf('http') === -1) {
-      if (url.indexOf('@') >= 0) {
-        newUrl = `mailto:${newUrl}`;
-      } else {
-        newUrl = `http://${newUrl}`;
+    const block = content.getBlockForKey(blockKey);
+    const oldSelection = editorState.getSelection();
+    block.findEntityRanges((character) => {
+      const eKey = character.getEntity();
+      return eKey === entityKey;
+    }, (start, end) => {
+      const selection = new SelectionState({
+        anchorKey: blockKey,
+        focusKey: blockKey,
+        anchorOffset: start,
+        focusOffset: end,
+      });
+      let entityKey = null;
+      let newUrl = url;
+      if (this.props.processURL) {
+        newUrl = this.props.processURL(url);
+      } else if (url.indexOf('http') === -1) {
+        if (url.indexOf('@') >= 0) {
+          newUrl = `mailto:${newUrl}`;
+        } else {
+          newUrl = `http://${newUrl}`;
+        }
       }
-    }
-    if (newUrl !== '') {
-      const contentWithEntity = content.createEntity(E.LINK, 'MUTABLE', { url: newUrl });
-      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
-      entityKey = contentWithEntity.getLastCreatedEntityKey();
-    }
-    this.onChange(RichUtils.toggleLink(editorState, selection, entityKey), this.focus);
+      if (newUrl !== '') {
+        const contentWithEntity = content.createEntity(E.LINK, 'MUTABLE', { url: newUrl });
+        editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+        entityKey = contentWithEntity.getLastCreatedEntityKey();
+      }
+      const newEditorState = EditorState.forceSelection(RichUtils.toggleLink(editorState, selection, entityKey), oldSelection);
+      this.onChange(newEditorState, this.focus);
+    });
   }
 
   /**
@@ -479,11 +492,11 @@ class MediumDraftEditor extends React.Component {
       });
       const newEditorState = EditorState.forceSelection(editorState, selection);
       this.onChange(newEditorState);
-      setTimeout(() => {
-        if (this.toolbar) {
-          this.toolbar.handleLinkInput(null, true);
-        }
-      }, 100);
+      // setTimeout(() => {
+      //   if (this.toolbar) {
+      //     this.toolbar.handleLinkInput(null, true);
+      //   }
+      // }, 100);
     });
   };
 
@@ -586,6 +599,8 @@ class MediumDraftEditor extends React.Component {
               editorState={editorState}
               removeLink={this.removeLink}
               editLink={this.editLinkAfterSelection}
+              setLink={this.setLink}
+              focus={this.focus}
           />)}
         </div>
       </div>

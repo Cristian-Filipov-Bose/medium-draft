@@ -60,11 +60,9 @@ $toolbar-color: #323845;
         border-left: 5px solid transparent;
     }
     
-    .md-url-input {
+    .md-RichEditor-link-url {
         box-sizing: border-box;
         border-radius: 2px;
-        display: block;
-        width: 100%;
         padding: 5px;
         padding-right: 11px;
         border: none;
@@ -172,7 +170,15 @@ $toolbar-color: #323845;
     position: relative;
     
     &.md-RichEditor-show-link-input {
-        padding: 6px 10px;
+        display: flex;
+
+        .md-RichEditor-styleButton {
+            flex: 0 0 auto;
+        }
+
+        .md-RichEditor-link-url {
+            flex: 1 0 auto;
+        }
     }
     
     &:last-child {

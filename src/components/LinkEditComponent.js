@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getVisibleSelectionRect } from 'draft-js';
+import { getCurrentBlock } from '../model/index';
+import { SelectionState } from 'draft-js';
 
 const getRelativeParent = (element) => {
   if (!element) {
@@ -24,6 +26,8 @@ export default class LinkEditComponent extends React.Component {
     entityKey: PropTypes.string.isRequired,
     removeLink: PropTypes.func.isRequired,
     editLink: PropTypes.func.isRequired,
+    setLink: PropTypes.func.isRequired,
+    focus: PropTypes.func,
   };
 
   constructor(props) {
@@ -31,28 +35,19 @@ export default class LinkEditComponent extends React.Component {
 
     this.state = {
       position: {},
+      urlInputValue: '',
+      selection: null
     };
     this.renderedOnce = false;
   }
 
   componentDidMount() {
+    console.log('componentDidMount');
     setTimeout(this.calculatePosition, 0);
   }
 
   componentDidUpdate() {
     setTimeout(this.calculatePosition, 0);
-  }
-
-  shouldComponentUpdate(newProps) {
-    if (this.renderedOnce) {
-      const ret = (this.props.blockKey !== newProps.blockKey || this.props.entityKey !== newProps.entityKey);
-      if (ret) {
-        this.renderedOnce = false;
-      }
-      return ret;
-    }
-    this.renderedOnce = true;
-    return true;
   }
 
   calculatePosition = () => {
@@ -70,7 +65,7 @@ export default class LinkEditComponent extends React.Component {
       left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
       transform: 'translate(-50%) scale(1)',
     };
-    this.setState({ position });
+    this.setState({ position, urlInputValue: this.props.url });
   };
 
   removeLink = (e) => {
@@ -79,17 +74,41 @@ export default class LinkEditComponent extends React.Component {
     this.props.removeLink(this.props.blockKey, this.props.entityKey);
   };
 
-  editLink = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.editLink(this.props.blockKey, this.props.entityKey);
-  };
+  onKeyDown = (e) => {
+    if (e.which === 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.props.setLink(this.state.urlInputValue, this.props.blockKey, this.props.entityKey);
+    } else if (e.which === 27) {
+      this.props.focus();
+    }
+  }
+
+  getSelection = () => {
+    const { editorState } = this.props;
+    const content = editorState.getCurrentContent();
+    const block = content.getBlockForKey(this.props.blockKey);
+    block.findEntityRanges((character) => {
+      const eKey = character.getEntity();
+      return eKey === this.props.entityKey;
+    }, (start, end) => {
+      const selection = new SelectionState({
+        anchorKey: this.props.blockKey,
+        focusKey: this.props.blockKey,
+        anchorOffset: start,
+        focusOffset: end,
+      });
+      this.setState({ selection });
+    });
+  }  
+
+  onChange = (e) => {
+    this.setState({
+      urlInputValue: e.target.value,
+    });
+  }
 
   render() {
-    let url = this.props.url;
-    if (url.length > 30) {
-      url = `${url.slice(0, 30)}...`;
-    }
     return (
       <div
         className="md-editor-inline-toolbar md-editor-inline-toolbar--isopen md-editor-inline-toolbar-edit-link"
@@ -98,17 +117,23 @@ export default class LinkEditComponent extends React.Component {
           this.toolbar = element;
         }}
       >
-        <div className="md-RichEditor-inline-controls">
-          <span className="md-RichEditor-link-url">
-            <a href={this.props.url} title={this.props.url} target="_blank" rel="noopener noreferrer">{url}</a>
-          </span>
+        <div className="md-RichEditor-inline-controls md-RichEditor-show-link-input">
           <span
             className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-edit-button"
-            onClick={this.editLink}
-            aria-label="Edit URL"
+            onClick={ _ => window.open(this.state.urlInputValue) }
+            aria-label="Open URL"
           >
-            <i className="material-icons">mode_edit</i>
+            <i className="material-icons">&#xE89E;</i>
           </span>
+          <input
+              ref={node => { this.urlinput = node; }}
+              type="text"
+              className="md-RichEditor-link-url"
+              onKeyDown={this.onKeyDown}
+              onChange={this.onChange}
+              placeholder="Press ENTER or ESC"
+              value={this.state.urlInputValue}
+          />
           <span
             className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-unlink-button"
             onClick={this.removeLink}

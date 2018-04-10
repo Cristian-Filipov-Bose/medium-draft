@@ -31,7 +31,7 @@ export default class LinkEditComponent extends React.Component {
     toolbar: PropTypes.object,
   };
 
-  static getDerivedStateFromProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!nextProps.toolbar) {
       return null;
     }
@@ -46,7 +46,12 @@ export default class LinkEditComponent extends React.Component {
       left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
       transform: 'translate(-100%) scale(1)',
     };
-    const url = nextProps.url || '';
+    const positionChanged = prevState.position.top !== position.top
+      || prevState.position.left !== position.left;
+      const url = nextProps.url || '';
+    if (positionChanged && prevState.showInput) {
+      return { showInput: false };
+    }
     return { position, urlInputValue: url };
   }
 

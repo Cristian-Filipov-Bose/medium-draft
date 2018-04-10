@@ -170,12 +170,6 @@ export const BLOCK_BUTTONS = [
     description: 'Heading 3',
   },
   {
-    label: <i className="material-icons">format_quote</i>,
-    style: 'blockquote',
-    icon: 'quote-right',
-    description: 'Blockquote',
-  },
-  {
     label: <i className="material-icons">format_list_bulleted</i>,
     style: 'unordered-list-item',
     icon: 'list-ul',
@@ -191,6 +185,12 @@ export const BLOCK_BUTTONS = [
     label: <i className="material-icons">playlist_add_check</i>,
     style: 'todo',
     description: 'Todo List',
+  },
+  {
+    label: <i className="material-icons">format_quote</i>,
+    style: 'blockquote',
+    icon: 'quote-right',
+    description: 'Blockquote',
   },
   {
     label: <i className="material-icons">code</i>,

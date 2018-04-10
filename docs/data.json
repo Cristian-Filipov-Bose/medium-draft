@@ -10,11 +10,41 @@
       "data": {}
     },
     {
+      "key": "4kbbh",
+      "text": "You can create a large title by typing # on an empty line followed by a space. You can also use the ”H1” button from the toolbar.",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [
+        {
+          "offset": 39,
+          "length": 1,
+          "style": "CODE"
+        }
+      ],
+      "entityRanges": [],
+      "data": {}
+    },
+    {
       "key": "b5lgf",
       "text": "Heading 2",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
+    },
+    {
+      "key": "crl76",
+      "text": "You can create a large title by typing ## on an empty line followed by a space. You can also use the ”H3” button from the toolbar.",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [
+        {
+          "offset": 39,
+          "length": 2,
+          "style": "CODE"
+        }
+      ],
       "entityRanges": [],
       "data": {}
     },
@@ -28,35 +58,23 @@
       "data": {}
     },
     {
-      "key": "3tkk",
-      "text": "Heading 4",
-      "type": "header-four",
+      "key": "96d83",
+      "text": "You can create a large title by typing ### on an empty line followed by a space. You can also use the ”H3” button from the toolbar.",
+      "type": "unstyled",
       "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-    },
-    {
-      "key": "aa1kq",
-      "text": "Heading 5",
-      "type": "header-five",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-    },
-    {
-      "key": "4q6t3",
-      "text": "Heading 6",
-      "type": "header-six",
-      "depth": 0,
-      "inlineStyleRanges": [],
+      "inlineStyleRanges": [
+        {
+          "offset": 39,
+          "length": 3,
+          "style": "CODE"
+        }
+      ],
       "entityRanges": [],
       "data": {}
     },
     {
       "key": "3a0io",
-      "text": "Paragraph Block",
+      "text": "Paragraph block",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],
@@ -126,7 +144,7 @@
     },
     {
       "key": "e98np",
-      "text": "Block Styles",
+      "text": "Block styles",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],
@@ -155,17 +173,17 @@
     },
     {
       "key": "967qt",
-      "text": "This is a NOTE block\n\nYou can create this by typing NOTE on an empty line followed by a space.",
+      "text": "This is an NOTE block\n\nYou can create this by typing NOTE on an empty line followed by a space.",
       "type": "note",
       "depth": 0,
       "inlineStyleRanges": [
         {
-          "offset": 10,
+          "offset": 11,
           "length": 4,
           "style": "BOLD"
         },
         {
-          "offset": 52,
+          "offset": 53,
           "length": 4,
           "style": "CODE"
         }
@@ -194,26 +212,6 @@
       "data": {}
     },
     {
-      "key": "a0gjf",
-      "text": "This is an ASIDE block\n\nYou can create this by typing ASIDE on an empty line followed by a space.",
-      "type": "aside",
-      "depth": 0,
-      "inlineStyleRanges": [
-        {
-          "offset": 11,
-          "length": 5,
-          "style": "BOLD"
-        },
-        {
-          "offset": 54,
-          "length": 5,
-          "style": "CODE"
-        }
-      ],
-      "entityRanges": [],
-      "data": {}
-    },
-    {
       "key": "bah83",
       "text": "This is a CODE block\n\nYou can create this by typing ``` on an empty line followed by a space. You can also use the code button in the toolbar.",
       "type": "code-block",
@@ -224,7 +222,7 @@
     },
     {
       "key": "e9rjt",
-      "text": "Unordered Lists",
+      "text": "Unordered lists",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],
@@ -289,7 +287,7 @@
     },
     {
       "key": "54l53",
-      "text": "Ordered Lists",
+      "text": "Ordered lists",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],
@@ -367,7 +365,7 @@
     },
     {
       "key": "fthni",
-      "text": "TODO Lists",
+      "text": "TODO lists",
       "type": "header-two",
       "depth": 0,
       "inlineStyleRanges": [],

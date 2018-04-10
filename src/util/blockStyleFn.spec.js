@@ -20,22 +20,6 @@ describe('blockStyleFn()', () => {
     expect(blockStyleFn(normalBlock)).to.equal(`${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-paragraph`);
   });
 
-  it('should return block class for CAPTION', () => {
-    const normalBlock = new ContentBlock({
-      type: Block.CAPTION,
-    });
-    expect(blockStyleFn(normalBlock)).to.equal(`${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-caption`);
-  });
-
-  it('should return block class for BLOCKQUOTE_CAPTION', () => {
-    const normalBlock = new ContentBlock({
-      type: Block.BLOCKQUOTE_CAPTION,
-    });
-    const cls = `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-quote`;
-    expect(blockStyleFn(normalBlock)).to.equal(
-      `${cls} md-RichEditor-blockquote ${BASE_BLOCK_CLASS}-quote-caption`);
-  });
-
   it('should return block class for BLOCKQUOTE', () => {
     const normalBlock = new ContentBlock({
       type: Block.BLOCKQUOTE,

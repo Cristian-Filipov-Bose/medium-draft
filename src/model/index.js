@@ -154,7 +154,7 @@ export const addNewBlockAt = (
  * Check whether the cursor is between entity of type LINK
  */
 export const isCursorBetweenLink = (editorState) => {
-  let ret = null;
+  let ret = { isCursorLink: false };
   const selection = editorState.getSelection();
   const content = editorState.getCurrentContent();
   const currentBlock = getCurrentBlock(editorState);
@@ -172,6 +172,7 @@ export const isCursorBetweenLink = (editorState) => {
           const entity = content.getEntity(entityKey);
           if (entity.getType() === Entity.LINK) {
             ret = {
+              isCursorLink: true,
               entityKey,
               blockKey,
               url: entity.getData().url,

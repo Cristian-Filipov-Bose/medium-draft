@@ -25,7 +25,7 @@
 
 $toolbar-color: #fff;
 
-.md-editor-block-toolbar {
+.md-editor-toolbar {
     background: $toolbar-color;
     color: #323845;
     cursor: auto;
@@ -39,13 +39,13 @@ $toolbar-color: #fff;
     
     // transition: top 75ms ease-out,left 75ms ease-out;
     
-    &.md-editor-block-toolbar--isopen {
+    &.md-editor-toolbar--isopen {
         visibility: visible;
         // transition: top 75ms ease-out,left 75ms ease-out;
         // animation: pop-upwards 180ms forwards linear;
     }
     
-    &.md-editor-block-toolbar--linkinput {
+    &.md-editor-toolbar--linkinput {
         animation: pop-upwards 200ms forwards linear;
         position: fixed;
         bottom: 0;

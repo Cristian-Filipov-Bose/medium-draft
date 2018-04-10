@@ -38,13 +38,12 @@ is passed. In custom implementation, users can pass their own mapping or extend
 the current one.
 */
 const beforeInput = (editorState, inputString, onChange, mapping = StringToTypeMap) => {
-  const selection = editorState.getSelection();
   const block = getCurrentBlock(editorState);
   const blockType = block.getType();
   if (blockType.indexOf(Block.ATOMIC) === 0) {
     return NOT_HANDLED;
   }
-  const blockLength = block.getLength();
+  // const blockLength = block.getLength();
   // if (selection.getAnchorOffset() > 1 || blockLength > 1) {
   //   return NOT_HANDLED;
   // }

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getVisibleSelectionRect } from 'draft-js';
-import { getCurrentBlock } from '../model/index';
-import { SelectionState } from 'draft-js';
 
 const getRelativeParent = (element) => {
   if (!element) {
@@ -20,15 +18,37 @@ const getRelativeParent = (element) => {
 export default class LinkEditComponent extends React.Component {
 
   static propTypes = {
+    isCursorLink: PropTypes.bool.isRequired,
     editorState: PropTypes.object.isRequired,
-    url: PropTypes.string.isRequired,
-    blockKey: PropTypes.string.isRequired,
-    entityKey: PropTypes.string.isRequired,
+    url: PropTypes.string,
+    blockKey: PropTypes.string,
+    entityKey: PropTypes.string,
     removeLink: PropTypes.func.isRequired,
     editLink: PropTypes.func.isRequired,
     setLink: PropTypes.func.isRequired,
+    insertLink: PropTypes.func.isRequired,
     focus: PropTypes.func,
+    toolbar: PropTypes.object,
   };
+
+  static getDerivedStateFromProps(nextProps) {
+    if (!nextProps.toolbar) {
+      return null;
+    }
+    const relativeParent = getRelativeParent(nextProps.toolbar.parentElement);
+    const relativeRect = relativeParent ? relativeParent.getBoundingClientRect() : window.document.body.getBoundingClientRect();
+    const selectionRect = getVisibleSelectionRect(window);
+    if (!selectionRect) {
+      return null;
+    }
+    const position = {
+      top: (selectionRect.top - relativeRect.top) + 25,
+      left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
+      transform: 'translate(-100%) scale(1)',
+    };
+    const url = nextProps.url || '';
+    return { position, urlInputValue: url };
+  }
 
   constructor(props) {
     super(props);
@@ -36,18 +56,51 @@ export default class LinkEditComponent extends React.Component {
     this.state = {
       position: {},
       urlInputValue: '',
-      selection: null
+      showInput: false,
     };
-    this.renderedOnce = false;
   }
 
-  componentDidMount() {
-    console.log('componentDidMount');
-    setTimeout(this.calculatePosition, 0);
+  onKeyDown = (e) => {
+    if (e.which === 13) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (this.state.showInput) {
+        this.props.insertLink(this.state.urlInputValue);
+      } else {
+        this.props.setLink(this.state.urlInputValue, this.props.blockKey, this.props.entityKey);
+      }
+      this.setState({ showInput: false });
+    } else if (e.which === 27) {
+      this.props.focus();
+      this.setState({ showInput: false });
+    }
   }
 
-  componentDidUpdate() {
-    setTimeout(this.calculatePosition, 0);
+  onChange = (e) => {
+    this.setState({
+      urlInputValue: e.target.value,
+    });
+  }
+
+  removeLink = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.removeLink(this.props.blockKey, this.props.entityKey);
+  };
+
+  handleLinkInput = (e, direct = false) => {
+    if (direct !== true) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    this.setState({
+      showInput: true,
+    }, () => {
+      setTimeout(() => {
+        this.urlinput.focus();
+        this.urlinput.select();
+      }, 0);
+    });
   }
 
   calculatePosition = () => {
@@ -65,50 +118,18 @@ export default class LinkEditComponent extends React.Component {
       left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
       transform: 'translate(-50%) scale(1)',
     };
-    this.setState({ position, urlInputValue: this.props.url });
-  };
-
-  removeLink = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.removeLink(this.props.blockKey, this.props.entityKey);
-  };
-
-  onKeyDown = (e) => {
-    if (e.which === 13) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.props.setLink(this.state.urlInputValue, this.props.blockKey, this.props.entityKey);
-    } else if (e.which === 27) {
-      this.props.focus();
+    const url = this.props.url || '';
+    console.log('this.props.url', url);
+    if (this.state.urlInputValue !== url) {
+      this.setState({ position, urlInputValue: url });
     }
-  }
-
-  getSelection = () => {
-    const { editorState } = this.props;
-    const content = editorState.getCurrentContent();
-    const block = content.getBlockForKey(this.props.blockKey);
-    block.findEntityRanges((character) => {
-      const eKey = character.getEntity();
-      return eKey === this.props.entityKey;
-    }, (start, end) => {
-      const selection = new SelectionState({
-        anchorKey: this.props.blockKey,
-        focusKey: this.props.blockKey,
-        anchorOffset: start,
-        focusOffset: end,
-      });
-      this.setState({ selection });
-    });
-  }  
-
-  onChange = (e) => {
-    this.setState({
-      urlInputValue: e.target.value,
-    });
-  }
+  };
 
   render() {
+    const show = this.props.isCursorLink || this.state.showInput;
+    if (!show) {
+      return null;
+    }
     return (
       <div
         className="md-editor-inline-toolbar md-editor-inline-toolbar--isopen md-editor-inline-toolbar-edit-link"
@@ -120,26 +141,26 @@ export default class LinkEditComponent extends React.Component {
         <div className="md-RichEditor-inline-controls md-RichEditor-show-link-input">
           <span
             className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-edit-button"
-            onClick={ _ => window.open(this.state.urlInputValue) }
+            onClick={() => window.open(this.state.urlInputValue)}
             aria-label="Open URL"
           >
             <i className="material-icons">&#xE89E;</i>
           </span>
           <input
-              ref={node => { this.urlinput = node; }}
-              type="text"
-              className="md-RichEditor-link-url"
-              onKeyDown={this.onKeyDown}
-              onChange={this.onChange}
-              placeholder="Press ENTER or ESC"
-              value={this.state.urlInputValue}
+            ref={node => { this.urlinput = node; }}
+            type="text"
+            className="md-RichEditor-link-url"
+            onKeyDown={this.onKeyDown}
+            onChange={this.onChange}
+            placeholder="Press ENTER or ESC"
+            value={this.state.urlInputValue}
           />
           <span
             className="md-RichEditor-styleButton md-RichEditor-linkButton hint--top md-editor-inline-toolbar-unlink-button"
             onClick={this.removeLink}
             aria-label="Remove URL"
           >
-            <i className="fa fa-unlink"></i>
+            <i className="fa fa-unlink" />
           </span>
         </div>
       </div>

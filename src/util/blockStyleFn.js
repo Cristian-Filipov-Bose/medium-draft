@@ -20,9 +20,9 @@ export default (block) => {
       return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-warning`;
     case Block.ASIDE:
       return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-aside`;
-      case Block.IMAGE:
+    case Block.IMAGE:
       return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-image`;
-      case Block.RENDERCODE:
+    case Block.RENDERCODE:
       return `${BASE_BLOCK_CLASS} ${BASE_BLOCK_CLASS}-render-code`;
     case Block.TODO: {
       const data = block.getData();

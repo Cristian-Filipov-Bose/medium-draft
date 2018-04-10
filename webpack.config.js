@@ -104,7 +104,7 @@ function getLoaders(env) {
   loaders.push({
     test: /\.jsx?$/,
     include: APP_DIR,
-    loader: env !== ENV_PROD ? 'react-hot-loader!babel-loader' : 'babel-loader',
+    loader: 'babel-loader',
     exclude: /node_modules/
   });
 

@@ -13,8 +13,9 @@ import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import { OrderedMap } from 'immutable';
 
 import AddButton from './components/addbutton';
-import BlockFormatToolbar, { BLOCK_BUTTONS } from './components/BlockFormatToolbar';
-import InlineFormatToolbar, { INLINE_BUTTONS } from './components/InlineFormatToolbar';
+// import BlockFormatToolbar, { BLOCK_BUTTONS } from './components/BlockFormatToolbar';
+// import InlineFormatToolbar, { INLINE_BUTTONS } from './components/InlineFormatToolbar';
+import FormatToolbar, { BLOCK_BUTTONS, INLINE_BUTTONS } from './components/FormatToolbar';
 import LinkEditComponent from './components/LinkEditComponent';
 
 import rendererFn from './components/customrenderer';
@@ -202,14 +203,14 @@ class MediumDraftEditor extends React.Component {
   /*
   Adds a hyperlink on the selected text with some basic checks.
   */
-  setLink(url, blockKey, entityKey) {
+  setLink(url, blockKey, existingEntityKey = null) {
     let { editorState } = this.props;
     const content = editorState.getCurrentContent();
     const block = content.getBlockForKey(blockKey);
     const oldSelection = editorState.getSelection();
     block.findEntityRanges((character) => {
       const eKey = character.getEntity();
-      return eKey === entityKey;
+      return eKey === existingEntityKey;
     }, (start, end) => {
       const selection = new SelectionState({
         anchorKey: blockKey,
@@ -236,6 +237,29 @@ class MediumDraftEditor extends React.Component {
       const newEditorState = EditorState.forceSelection(RichUtils.toggleLink(editorState, selection, entityKey), oldSelection);
       this.onChange(newEditorState, this.focus);
     });
+  }
+
+  insertLink = (url) => {
+    let { editorState } = this.props;
+    const selection = editorState.getSelection();
+    const content = editorState.getCurrentContent();
+    let entityKey = null;
+    let newUrl = url;
+    if (this.props.processURL) {
+      newUrl = this.props.processURL(url);
+    } else if (url.indexOf('http') === -1) {
+      if (url.indexOf('@') >= 0) {
+        newUrl = `mailto:${newUrl}`;
+      } else {
+        newUrl = `http://${newUrl}`;
+      }
+    }
+    if (newUrl !== '') {
+      const contentWithEntity = content.createEntity(E.LINK, 'MUTABLE', { url: newUrl });
+      editorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+      entityKey = contentWithEntity.getLastCreatedEntityKey();
+    }
+    this.onChange(RichUtils.toggleLink(editorState, selection, entityKey), this.focus);
   }
 
   /**
@@ -500,6 +524,10 @@ class MediumDraftEditor extends React.Component {
     });
   };
 
+  handleLinkInput = () => {
+    this.toolbar.handleLinkInput(null, true);
+  }
+
   /**
    * Handle pasting when cursor is in an image block. Paste the text as the
    * caption. Otherwise, let Draft do its thing.
@@ -534,7 +562,7 @@ class MediumDraftEditor extends React.Component {
     const { editorState, editorEnabled, disableToolbar, showLinkEditToolbar, toolbarConfig } = this.props;
     const showAddButton = editorEnabled;
     const editorClass = `md-RichEditor-editor${!editorEnabled ? ' md-RichEditor-readonly' : ''}`;
-    let isCursorLink = false;
+    let isCursorLink = { isCursorLink: false };
     if (editorEnabled && showLinkEditToolbar) {
       isCursorLink = isCursorBetweenLink(editorState);
     }
@@ -544,12 +572,16 @@ class MediumDraftEditor extends React.Component {
       <div className="md-RichEditor-root">
         <div className={editorClass}>
           {!disableToolbar && (
-            <BlockFormatToolbar
+            <FormatToolbar
               editorNode={this._editorNode}
               editorState={editorState}
               toggleBlockType={this.toggleBlockType}
+              toggleInlineStyle={this.toggleInlineStyle}
               editorEnabled={editorEnabled}
               blockButtons={blockButtons}
+              inlineButtons={inlineButtons}
+              focus={this.focus}
+              handleLinkInput={this.handleLinkInput}
             />
           )}
           <Editor
@@ -581,27 +613,17 @@ class MediumDraftEditor extends React.Component {
               sideButtons={this.props.sideButtons}
             />
           )}
-          {!disableToolbar && (
-            <InlineFormatToolbar
-              ref={(c) => { this.toolbar = c; }}
-              editorNode={this._editorNode}
-              editorState={editorState}
-              toggleInlineStyle={this.toggleInlineStyle}
-              editorEnabled={editorEnabled}
-              setLink={this.setLink}
-              focus={this.focus}
-              inlineButtons={inlineButtons}
-            />
-          )}
-          {isCursorLink && (
-            <LinkEditComponent
-              {...isCursorLink}
-              editorState={editorState}
-              removeLink={this.removeLink}
-              editLink={this.editLinkAfterSelection}
-              setLink={this.setLink}
-              focus={this.focus}
-          />)}
+          <LinkEditComponent
+            {...isCursorLink}
+            ref={(c) => { this.toolbar = c; }}
+            toolbar={this.toolbar}
+            editorState={editorState}
+            removeLink={this.removeLink}
+            editLink={this.editLinkAfterSelection}
+            setLink={this.setLink}
+            insertLink={this.insertLink}
+            focus={this.focus}
+          />
         </div>
       </div>
     );

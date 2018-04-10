@@ -20,13 +20,11 @@ export const StringToTypeMap = {
   '#### ': Block.H4,
   '##### ': Block.H5,
   '###### ': Block.H6,
-  '==': Block.UNSTYLED,
   '[]': Block.TODO,
   '``` ': Block.CODE,
-  'CODE ': Block.CODE,
-  'NOTE ': Block.NOTE,
-  'WARN ': Block.WARNING,
-  'ASIDE ': Block.ASIDE,
+  ':note:': Block.NOTE,
+  ':warn:': Block.WARNING,
+  ':todo:': Block.TODO,
 };
 
 /*

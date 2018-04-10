@@ -35,7 +35,7 @@
     },
     {
       "key": "crl76",
-      "text": "You can create a large title by typing ## on an empty line followed by a space. You can also use the ”H3” button from the toolbar.",
+      "text": "You can create a large title by typing ## on an empty line followed by a space. You can also use the ”H2” button from the toolbar.",
       "type": "unstyled",
       "depth": 0,
       "inlineStyleRanges": [
@@ -173,7 +173,7 @@
     },
     {
       "key": "967qt",
-      "text": "This is an NOTE block\n\nYou can create this by typing NOTE on an empty line followed by a space.",
+      "text": "This is an NOTE block\n\nYou can create this by typing :note: on an empty line.",
       "type": "note",
       "depth": 0,
       "inlineStyleRanges": [
@@ -184,7 +184,7 @@
         },
         {
           "offset": 53,
-          "length": 4,
+          "length": 6,
           "style": "CODE"
         }
       ],
@@ -193,7 +193,7 @@
     },
     {
       "key": "979uv",
-      "text": "This is a WARNING block\n\nYou can create this by typing WARN on an empty line followed by a space.",
+      "text": "This is a WARNING block\n\nYou can create this by typing :warn: on an empty line.",
       "type": "warning",
       "depth": 0,
       "inlineStyleRanges": [
@@ -204,7 +204,7 @@
         },
         {
           "offset": 55,
-          "length": 4,
+          "length": 6,
           "style": "CODE"
         }
       ],
@@ -216,7 +216,13 @@
       "text": "This is a CODE block\n\nYou can create this by typing ``` on an empty line followed by a space. You can also use the code button in the toolbar.",
       "type": "code-block",
       "depth": 0,
-      "inlineStyleRanges": [],
+      "inlineStyleRanges": [
+        {
+          "offset": 52,
+          "length": 3,
+          "style": "CODE"
+        }
+      ],
       "entityRanges": [],
       "data": {}
     },
@@ -423,6 +429,21 @@
         {
           "offset": 18,
           "length": 2,
+          "style": "CODE"
+        }
+      ],
+      "entityRanges": [],
+      "data": {}
+    },
+    {
+      "key": "6a246",
+      "text": "You can also type :todo: on an empty line.",
+      "type": "todo",
+      "depth": 0,
+      "inlineStyleRanges": [
+        {
+          "offset": 18,
+          "length": 6,
           "style": "CODE"
         }
       ],

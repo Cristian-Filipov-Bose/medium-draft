@@ -48,7 +48,7 @@ export default class LinkEditComponent extends React.Component {
     };
     const positionChanged = prevState.position.top !== position.top
       || prevState.position.left !== position.left;
-      const url = nextProps.url || '';
+    const url = nextProps.url || '';
     if (positionChanged && prevState.showInput) {
       return { showInput: false };
     }
